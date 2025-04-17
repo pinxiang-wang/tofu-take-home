@@ -1,0 +1,89 @@
+{
+    "meta": {
+      "position": 1
+    },
+    "Company Name": {
+      "data": [
+        {
+          "id": "859cf3c3-8025-4e3c-8a83-892df7bc8136",
+          "type": "text",
+          "value": "Stampli"
+        }
+      ],
+      "meta": {
+        "position": 1
+      }
+    },
+    "AP Automation": {
+      "data": [
+        {
+          "id": "98161597-60a3-47c0-a290-460c9ba38a96",
+          "type": "url",
+          "value": "https://www.stampli.com/ap-automation"
+        }
+      ],
+      "meta": {
+        "position": 7
+      }
+    },
+    "Company Website": {
+      "data": [
+        {
+          "id": "53300d1d-0c22-4b0c-a8e8-ec7658f06fe8",
+          "type": "url",
+          "value": "https://www.stampli.com/"
+        }
+      ],
+      "meta": {
+        "position": 2
+      }
+    },
+    "Product Overview": {
+      "data": [
+        {
+          "id": "0b6e1d04-67b3-494b-957c-07e0a6b3e941",
+          "type": "text",
+          "value": "Stampli is the only AP automation solution that's purpose-built for Accounts Payable. It centers all communication, documentation, and workflows on top of each invoice, eliminating the need for workarounds, external communications channels, 3rd-party solutions, or manual AP work inside the ERP. Every activity is logged and auditable, making month-end close simple and efficient. Stampli also offers AP teams full visibility into the status of every single invoice and payment.\n\nAP teams dramatically reduce tedious manual tasks with the help of Billy the Bot™, Stampli's AI-powered automation. Billy quickly learns how your business AP processes work to automate your most time-consuming activities, including invoice capture, coding, approvals, fraud detection, and automatic sync of invoice data to your ERP.  \n\nBeyond AP, Stampli offers a suite of integrated products that extend the same levels of efficiency, visibility, and control to direct payments (check, ACH, and credit card), your physical and virtual credit card program, vendor management, and more. \n"
+        }
+      ],
+      "meta": {
+        "position": 5
+      }
+    },
+    "Official Overview ": {
+      "data": [
+        {
+          "id": "19a30063-1e31-407a-8634-7ca8c9f9c221",
+          "type": "text",
+          "value": "Stampli provides complete visibility and control over your entire AP program. It reduces the risk of errors, fraud, and compliance issues while improving vendor relationships and making your AP processes much more efficient.\n"
+        }
+      ],
+      "meta": {
+        "position": 4
+      }
+    },
+    "Company Description": {
+      "data": [
+        {
+          "id": "04b16677-cb1e-48b3-b0ea-d134def729a4",
+          "type": "text",
+          "value": "Stampli's AI-powered Accounts Payable automation solution brings all AP-related communication, documentation, and workflows into one place. Automate Accounts Payable without reworking your ERP. Only Stampli supports all native functionality for more than 70 ERPs. You'll make AP far more efficient without changing your processes."
+        }
+      ],
+      "meta": {
+        "position": 3
+      }
+    },
+    "Stampli differentiators": {
+      "data": [
+        {
+          "id": "9fee94d6-f676-4854-a0d3-9a08cca44c29",
+          "type": "text",
+          "value": "Least disruption: No need to rework your ERP or change your AP processes.\n\nMost control: One place for all your communication, documentation, and workflows.\n\nSmartest AI: Billy the Bot assists you across the entire invoice process — and he's always learning.\n\nFastest to value: Stampli deploys in days, not months, with minimal user training.\n\nMore than just AP: Stampli offers integrated payments, credit cards, vendor management, and more."
+        }
+      ],
+      "meta": {
+        "position": 6
+      }
+    }
+}
