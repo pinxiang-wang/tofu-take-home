@@ -2,6 +2,7 @@ from langchain.prompts import PromptTemplate
 from langchain_community.chat_models import ChatOpenAI
 from langchain.chains import LLMChain
 
+
 # Define the company info prompt
 def get_company_info_prompt():
     return PromptTemplate.from_template(

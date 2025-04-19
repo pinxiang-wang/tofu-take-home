@@ -21,9 +21,9 @@ class PlaybookParser:
             if item.get("type") in ("text", "url") and item.get("value", "").strip()
         ])
 
-    def parse_company_info(self) -> str:
-        """Flatten and format company_info fields as a readable string"""
-        entries = []
+    def parse_company_info(self) -> Dict[str, str]:
+        """Flatten and format company_info fields as key-value pairs"""
+        entries = {}
         for field_name, field_data in self.company_info_raw.items():
             if field_name == "meta":
                 continue
@@ -31,8 +31,9 @@ class PlaybookParser:
             if isinstance(data_list, list):
                 values = self._extract_text_from_data(data_list)
                 if values:
-                    entries.append(f"{field_name.strip()}: {values}")
-        return "\n".join(entries)
+                    entries[field_name.strip()] = values
+        return entries
+
 
     def parse_targets(self) -> List[Dict[str, str]]:
         """Extract and flatten all targets (accounts, personas, industries, etc)"""
@@ -59,3 +60,10 @@ class PlaybookParser:
             "company_info": self.parse_company_info(),
             "targets": self.parse_targets()
         }
+
+    def save_to_json(self, output_path: str) -> None:
+        """Save the structured playbook data to a JSON file"""
+        structured_data = self.get_structured()
+        with open(output_path, 'w', encoding='utf-8') as f:
+            json.dump(structured_data, f, indent=4, ensure_ascii=False)
+        print(f"Data saved to {output_path}")
