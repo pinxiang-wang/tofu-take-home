@@ -1,5 +1,6 @@
 import json
 import openai
+import os
 from bs4 import BeautifulSoup, NavigableString
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
@@ -396,6 +397,8 @@ def replacement_content_gen_with_pitch(account_info, industry_descriptions, pers
     # with open("logs/replacements_dict.json", "w", encoding="utf-8") as f:
     #     json.dump(replacements_dict, f, ensure_ascii=False, indent=4)
     # Name the log for different Account
+    # create the logs directory if it doesn't exist
+    os.makedirs("logs", exist_ok=True)
     with open(f"logs/content_generation_log_{account_info['name']}.log", "w", encoding="utf-8") as f:
         f.write(log)
     return replacements_dict    
@@ -437,7 +440,8 @@ def page_render(input_html_path, output_html_path, replacements):
                     target.string = new_content
         else:
             print(f"Warning: ID '{key}' not found in HTML. Skipped.")
-
+    # create the output directory if it doesn't exist
+    os.makedirs("output", exist_ok=True)
     # Write the updated HTML to output path
     with open(output_html_path, "w", encoding="utf-8") as file:
         file.write(str(soup))

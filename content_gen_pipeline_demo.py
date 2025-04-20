@@ -2,6 +2,7 @@ from src.marketing_content_gen import (
     page_render,
     replacement_content_gen_with_pitch,
 )
+import os
 from src.playbook_parser import PlaybookParser
 from src.playbook_knowledge_gen import load_playbook_data, categorize_playbook_data
 
@@ -15,6 +16,8 @@ if __name__ == "__main__":
     parser = PlaybookParser(company_info_path, target_info_path)
 
     output_path = "output/playbook_data.json"
+    # create the output directory if it doesn't exist
+    os.makedirs("output", exist_ok=True)
     parser.save_to_json(output_path)
     # load the playbook data
     playbook_data = load_playbook_data(output_path)
