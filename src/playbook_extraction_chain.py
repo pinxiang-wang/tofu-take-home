@@ -1,5 +1,4 @@
 from langchain.prompts import PromptTemplate
-from langchain_community.chat_models import ChatOpenAI
 from langchain.chains import LLMChain
 
 
@@ -34,6 +33,7 @@ Input:
 """
     )
 
+
 # Define the target info prompt
 def get_target_info_prompt():
     return PromptTemplate.from_template(
@@ -46,7 +46,7 @@ Given a JSON file describing customer targets, extract and organize the informat
 3. Industries (name + summary + link)
 4. Healthcare Subverticals (name + description + link)
 
-Format the output in readable markdown, with categories separated and each item shown in this style:
+Format the output in reßadable markdown, with categories separated and each item shown in this style:
 
 - [Accounts] YMCA: https://www.ymca.org/
 - [Personas] CFO: <short description>. <link>
@@ -59,9 +59,11 @@ Input JSON:
 """
     )
 
+
 # Create chains for each prompt
 def create_company_chain(llm):
     return LLMChain(prompt=get_company_info_prompt(), llm=llm)
+
 
 def create_target_chain(llm):
     return LLMChain(prompt=get_target_info_prompt(), llm=llm)

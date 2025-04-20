@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+*.sqlite3
+*.db
+*.db-journal
+
+# Virtual Environment
+venv/
+env/
+.venv/
+.env/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Logs
+*.log
+
+# Environment files
+.env
+*.env
+
+# Coverage reports
+.coverage
+.coverage.*
+*.coveragerc
+
+# Test result files
+nosetests.xml
+coverage.xml
+*.coveragerc
+*.pytest_cache/
+
+# Python build artifacts
+*.egg-info/
+*.egg
+*.dist-info/
