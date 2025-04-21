@@ -7,15 +7,6 @@ Company --- Tofu's client Stampli YMCA, Apex Oil...
 Industry --- The target industries of Stampli's marketing service
 Persona --- The target personas of Stampli's marketing persona
 
----
-
-### **Setup and Usage Instructions:**
-
-To run this project, you need to install the necessary dependencies and set up OpenAI API access. Please follow these steps:
-
-1. Clone this repository:
-2.
-
 ### **Workflow Overview:**
 
 1. **Initial Account Description Generation:**
@@ -43,3 +34,26 @@ To run this project, you need to install the necessary dependencies and set up O
 
 - Due to the **token limitations** in OpenAI models (e.g., `gpt-3.5-turbo` with a limit of 4096 tokens), the system optimizes the data passed to the model by chunking large pieces of text, focusing only on the most relevant content for each stage of the process.
 - If necessary, only the essential context from the playbook (such as key persona details and industry information) is sent to ensure that the generated content stays within the model's token limits.
+
+
+
+
+### **Setup and Usage Instructions:****
+
+To run this project, you need to install the necessary dependencies and set up OpenAI API access. Please follow these steps:
+
+#### 1. Clone this repository:
+
+```bash
+git clone https://github.com/pinxiang-wang/tofu-take-home.git
+cd tofu-take-home
+
+# Install required Python packages
+pip install -r requirements.txt
+
+export OPENAI_API_KEY="your-api-key-here"
+# Run the pipeline demo:
+python content_gen_pipeline_demo.py
+
+
+```
