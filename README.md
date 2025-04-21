@@ -42,9 +42,8 @@ Persona --- The target personas of Stampli's marketing persona
 
 To run this project, you need to install the necessary dependencies and set up OpenAI API access. Please follow these steps:
 
-#### 1. Clone this repository:
-
 ```bash
+# Clone the project
 git clone https://github.com/pinxiang-wang/tofu-take-home.git
 cd tofu-take-home
 
