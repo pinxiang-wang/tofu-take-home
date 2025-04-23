@@ -2,32 +2,29 @@
 
 This project generates personalized landing pages for Tofu clients based on background information collected from the **company_info.json** and **target_info.json** about account, industry, and persona descriptions. The entire process is divided into three main stages where OpenAI's API is utilized for content generation and personalization. Below is a breakdown of the workflow:
 
-To better understand the entities:
-Company --- Tofu's client Stampli YMCA, Apex Oil.
-Industry --- The target industries of Stampli's marketing service. 
-Persona --- The target personas of Stampli's marketing persona. 
+### **Workflow Overview**
 
-### **Workflow Overview:**
+1. **Company and Account Summary Generation**
+   * The system begins by parsing structured JSON files for** ****company\_info** and** ****target\_info**.
+   * It extracts and summarizes** ****Stampli’s core services** and the** ****target account’s profile** using OpenAI.
+   * Long texts (e.g., product overviews) are split into chunks and proportionally summarized to stay within token limits.
+2. **Strategic Pitch Generation**
+   * With both summaries in hand, the system matches the account with the most relevant** ****industry** and** ****persona** entries.
+   * Based on this alignment, OpenAI generates a** ****strategic marketing pitch** (around 2000 words), personalized to the target account’s needs and context.
+3. **HTML Placeholder Content Generation**
+   * The system parses the provided** ****HTML template**, identifying placeholder tags and extracting original content length and structure.
+   * Using the pitch and placeholder metadata, OpenAI generates content tailored to each tag, maintaining layout consistency and contextual relevance.
+4. **Final Landing Page Rendering**
+   * The** ****`page_render`** function replaces HTML content using the generated mapping, preserving structural fidelity.
+   * The output is a fully customized landing page for the target account.
 
-1. **Initial Account Description Generation:**
 
-   - The first OpenAI API call is made when the user initiates a landing page generation request.
-   - Using the provided **Account URL**, the system queries OpenAI to extract and summarize the account’s relevant information, such as the account's mission, services, and key features.
-2. **Industry and Persona Classification:**
+### **Improvements Over Previous Design**
 
-   - The second API call is to classify the account into its **Industry** and **Persona** based on the extracted **industry descriptions** and **persona descriptions** from the playbook.
-   - The generated account description combined with these playbook elements ensure that the content is properly aligned with the account's industry and persona context.
-   - OpenAI generates a **2000-word marketing pitch** tailored to the specific account, incorporating the persona's needs, challenges, and industry-specific context.
-3. **HTML Content Replacement:**
-
-   - The third API call involves the generation of personalized content for specific HTML placeholders within the provided landing page template.
-   - The system sends the all the information, including: **marketing pitch**, **tag positions**, **HTML tag structure**, and **content length** information, to OpenAI with well-designed prompt instruction.
-   - OpenAI uses this information to generate personalized replacement content for each placeholder, ensuring that the final output remains engaging, relevant, and consistent with the account's needs.
-4. **HTML Page Rendering:**
-
-   - Once all content is generated, the **`page_render`** function is invoked to update the HTML page with the generated content.
-   - The function is to preserve the original layout and tag structure, ensuring that the personalized content is inserted correctly without breaking the page's formatting. （Still have some bugs in rendering the pages）
-
+* ** ****Modularized**: Each step is encapsulated as a standalone function/tool, improving reusability and maintainability.
+* ** ****Clear Logical Chain**: From data parsing → summarization → classification → generation → rendering, the flow is explicitly defined.
+* ** ****Memory-Optimized**: Repeated content like summaries are stored using LangChain memory, reducing redundant API calls.
+* ** ****Token-Conscious Design**: Long inputs are chunked and summarized proportionally to maximize content fidelity within token limits.
 
 ### **Integrate LangChain Memory**
 
