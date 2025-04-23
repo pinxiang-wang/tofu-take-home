@@ -14,7 +14,7 @@ llm = ChatOpenAI(temperature=0.4, model="gpt-4o")
 ATTEMPTS = 10
 
 # Function to fetch and summarize URL content using LangChain through OpenAI
-def parse_account_url_with_langchain(account_url: str, max_length=1500) -> str:
+def parse_account_url_with_langchain(account_url: str, max_length=2000) -> str:
     try:
         # Create a prompt template for LangChain
         prompt_template = f"""
@@ -26,10 +26,9 @@ def parse_account_url_with_langchain(account_url: str, max_length=1500) -> str:
         prompt = PromptTemplate(
             input_variables=["account_url"], template=prompt_template
         )
-        chain = LLMChain(llm=llm, prompt=prompt)
 
         # Call LangChain to generate the content
-        result = chain.run(account_url=account_url)
+        result = llm.invoke(prompt.format(account_url=account_url))
 
         # Ensure the result does not exceed the maximum length
         if len(result) > max_length:
