@@ -18,7 +18,6 @@ This project generates personalized landing pages for Tofu clients based on back
    * The** ****`page_render`** function replaces HTML content using the generated mapping, preserving structural fidelity.
    * The output is a fully customized landing page for the target account.
 
-
 ### **Improvements Over Previous Design**
 
 * ** ****Modularized**: Each step is encapsulated as a standalone function/tool, improving reusability and maintainability.
@@ -30,11 +29,9 @@ This project generates personalized landing pages for Tofu clients based on back
 
 To reduce redundant API calls and improve performance, we integrated** ****LangChain's memory module**. This allows the system to** ****cache previously generated summaries** (e.g., company or account descriptions), so they can be reused in subsequent steps or requests without re-generating, improving efficiency and consistency across the content pipeline.
 
-
 ### **Handling Token Limitations**
 
 To handle OpenAI’s token limits (e.g., 4096 tokens for** **`gpt-3.5-turbo`), this system splits long texts through multi OpenAI API calls—like company or industry descriptions, into chunks, summarizes each proportionally, and then combines the results into a final concise summary. This ensures essential content is preserved while staying within the model’s limits.
-
 
 ### **Setup and Usage Instructions:****
 
@@ -59,3 +56,7 @@ python content_gen_pipeline_demo.py
 python content_gen_gemo_with_planner.py
 
 ```
+
+### Demo Output Screeshot
+
+![1745425686964](images/README/1745425686964.png)![1745425777636](images/README/1745425777636.png)
