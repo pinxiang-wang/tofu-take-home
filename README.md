@@ -3,9 +3,9 @@
 This project generates personalized landing pages for Tofu clients based on background information collected from the **company_info.json** and **target_info.json** about account, industry, and persona descriptions. The entire process is divided into three main stages where OpenAI's API is utilized for content generation and personalization. Below is a breakdown of the workflow:
 
 To better understand the entities:
-Company --- Tofu's client Stampli YMCA, Apex Oil...
-Industry --- The target industries of Stampli's marketing service
-Persona --- The target personas of Stampli's marketing persona
+Company --- Tofu's client Stampli YMCA, Apex Oil.
+Industry --- The target industries of Stampli's marketing service. 
+Persona --- The target personas of Stampli's marketing persona. 
 
 ### **Workflow Overview:**
 
@@ -28,14 +28,15 @@ Persona --- The target personas of Stampli's marketing persona
    - Once all content is generated, the **`page_render`** function is invoked to update the HTML page with the generated content.
    - The function is to preserve the original layout and tag structure, ensuring that the personalized content is inserted correctly without breaking the page's formatting. （Still have some bugs in rendering the pages）
 
----
 
-### **Handling Token Limitations:**
+### **Integrate LangChain Memory**
 
-- Due to the **token limitations** in OpenAI models (e.g., `gpt-3.5-turbo` with a limit of 4096 tokens), the system optimizes the data passed to the model by chunking large pieces of text, focusing only on the most relevant content for each stage of the process.
-- If necessary, only the essential context from the playbook (such as key persona details and industry information) is sent to ensure that the generated content stays within the model's token limits.
+To reduce redundant API calls and improve performance, we integrated** ****LangChain's memory module**. This allows the system to** ****cache previously generated summaries** (e.g., company or account descriptions), so they can be reused in subsequent steps or requests without re-generating, improving efficiency and consistency across the content pipeline.
 
 
+### **Handling Token Limitations**
+
+To handle OpenAI’s token limits (e.g., 4096 tokens for** **`gpt-3.5-turbo`), this system splits long texts through multi OpenAI API calls—like company or industry descriptions, into chunks, summarizes each proportionally, and then combines the results into a final concise summary. This ensures essential content is preserved while staying within the model’s limits.
 
 
 ### **Setup and Usage Instructions:****
@@ -43,6 +44,8 @@ Persona --- The target personas of Stampli's marketing persona
 To run this project, you need to install the necessary dependencies and set up OpenAI API access. Please follow these steps:
 
 ```bash
+
+
 # Clone the project
 git clone https://github.com/pinxiang-wang/tofu-take-home.git
 cd tofu-take-home
@@ -51,8 +54,11 @@ cd tofu-take-home
 pip install -r requirements.txt
 
 export OPENAI_API_KEY="your-api-key-here"
+
 # Run the pipeline demo:
 python content_gen_pipeline_demo.py
 
+# Run the newest pipeline demo:
+python content_gen_gemo_with_planner.py
 
 ```
