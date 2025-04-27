@@ -10,7 +10,7 @@ import tiktoken
 import time
 import json
 
-llm = ChatOpenAI(temperature=0.7, model="gpt-3.5-turbo")
+llm = ChatOpenAI(temperature=0.5, model="gpt-3.5-turbo")
 
 CHUNK_TOKEN_SIZE = 3900
 SUMMARY_TARGET_LENGTH = 500  # words
@@ -346,11 +346,10 @@ def generate_replacement_content(pitch_text: str, html_path: str, positions: lis
         "For all replacements, please ensure the content length is approximately similar to the original content length "
         "to preserve the visual layout of the landing page.\n"
         "The content should integrate the following critical details:\n"
-        "  1. The **Account Name**: Mention the account name account_name  and tailor the content accordingly. This is a strictly required field.\n"
-        "  2. **Industry**: Address the specific challenges and characteristics of the account's industry.\n"
-        "  3. **Persona**: Match the tone and content to the persona's role. This Account may have multiple personas, they have the demand ot the services (e.g., CFO, manager).\n"
-        "  4. **Account's Services**: Highlight any services the account offers that are relevant to the context.\n"
-        "  5. **Generated Content Length**: The content should be of approximately the same length as the original content to preserve the layout. And the logic of the content should be the same as the marketing pitch.\n"
+        "  1. The target audience is the an account name, industry, or a persona. They are independent of each other. Any of them can be the target audience.\n"
+        "  2. The content should be of approximately the same length as the original content to preserve the layout. And the logic of the content should be the same as the marketing pitch.\n"
+        "  3. Don't get misled by the original content, the content should be tailored to the target audience.\n"
+        "     The original content is just for a logic, structural and length reference. It may not be the actual content for the target audience.\n"
         "Respond using the following format:\n"
         "REPLACEMENT for <placeholder>: <content>\n\n"
         "Here are the HTML sections that need replacement:\n"
@@ -361,15 +360,13 @@ def generate_replacement_content(pitch_text: str, html_path: str, positions: lis
         final_instruction += f"- Placeholder: {t['placeholder']}\n"
         final_instruction += f"  HTML snippet to preserve (structure only):\n"
         final_instruction += f"  {t['html']}\n"
-        final_instruction += f"  Text content to replace: \"{t['original']}\" (about {t['length']} characters), remember to keep the same length and logic as the marketing pitch.\n"
-        final_instruction += f"  Keep in mind you are a great marketing content generator, don't be a nerd, use in-depth marketing knowledge to generate the content.\n"
-    
+        final_instruction += f"  Text content to replace: \"{t['original']}\" (about {t['length']} characters), remember to keep the same length and logic as the marketing pitch.\n"    
   
     
 
     # Call LLM
     messages = [
-        SystemMessage(content="You are a helpful assistant for HTML content customization."),
+        SystemMessage(content="You are a helpful assistant for marketing to help user's HTML content customization."),
         SystemMessage(content=final_instruction),
     ]
 
