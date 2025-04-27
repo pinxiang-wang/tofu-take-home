@@ -65,7 +65,6 @@ python content_gen_gemo_with_planner.py
 
 ## Latest Project Update
 
-## Latest Project Update (April 2025)
 
 ### New Structure Overview
 
