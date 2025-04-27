@@ -60,3 +60,51 @@ python content_gen_gemo_with_planner.py
 ### Demo Output Screeshot
 
 ![1745425686964](images/README/1745425686964.png)![1745425777636](images/README/1745425777636.png)
+
+### Description of the new Update:
+
+## Latest Project Update 
+
+### New Structure Overview
+
+All updated code is organized under the `src_` folder with a clear modular design:
+
+- **core/**
+  Contains the main logic for content generation.
+  Includes multiple specialized GPT Agents (e.g., URL analysis, marketing pitch generation, web content rewriting) following clean OOP principles.
+- **entity/**
+  Defines Data Transfer Objects (DTOs) such as `FieldTemplate`, and implements cache management and persistence mechanisms.
+- **utils/**
+  Provides wrapped utility methods for agent invocation, HTML parsing, structured data extraction, retry mechanisms, and more.
+
+### Major Design Improvements
+
+- **OOP Architecture**
+  The new version adopts a complete object-oriented design.
+  Each GPT-based operation (e.g., URL crawling, marketing pitch generation, customized web rewriting) is implemented as an independent `Agent` class, inheriting from a unified `BaseGPTAgent` interface to ensure extensibility and code reuse.
+- **Multi-Agent System**Three specialized GPT Agents are now implemented:
+
+  - `URLAnalysisAgent`
+  - `MarketingPitchGenerationAgent`
+  - `CustomizedWebContentAgent`
+    Each agent is responsible for a distinct stage in the content generation pipeline.
+- **Data Persistence and Caching**A structured caching mechanism is introduced using serialized JSON files.
+
+  - `FieldTemplate` objects store intermediate results, including crawled content, generated marketing pitches, and timestamps.
+  - When updating content:
+    - If a cache key exists and the corresponding URL and text have not changed, the cached result is reused directly to minimize API calls.
+    - If changes are detected, new content is generated and the cache is updated.
+  - This ensures efficient, consistent, and incremental content processing.
+- **Error Handling and Retry Mechanisms**
+  For all GPT API interactions, robust retry strategies are incorporated to automatically handle transient connection or server errors.
+
+### Benefits of This Redesign
+
+- Faster repeated runs due to intelligent caching.
+- Cleaner code organization and easier future extensions.
+- Modular and flexible GPT agent usage patterns.
+- Resilient and production-grade error handling for real-world deployments.
+
+---
+
+This project redesign sets a strong foundation for future scalability, including potential enhancements like fine-grained cache invalidation policies, parallelized content generation, or the integration of additional GPT-based agents.
