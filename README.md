@@ -108,3 +108,14 @@ All updated code is organized under the `src_` folder with a clear modular desig
 ---
 
 This project redesign sets a strong foundation for future scalability, including potential enhancements like fine-grained cache invalidation policies, parallelized content generation, or the integration of additional GPT-based agents.
+
+---
+## How to Run
+
+Make sure you have installed all dependencies (including `openai`, `langchain`, `httpx`, `beautifulsoup4`, etc.).
+
+To execute the full content generation pipeline, simply run:
+
+```bash
+python main.py
+---
