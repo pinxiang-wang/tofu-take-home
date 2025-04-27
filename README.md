@@ -63,7 +63,100 @@ python content_gen_gemo_with_planner.py
 
 ### Description of the new Update:
 
-## Latest Project Update 
+## Latest Project Update
+
+## Latest Project Update (April 2025)
+
+### New Structure Overview
+
+All updated code is organized under the `src_` folder with a clear modular design:
+
+- **core/**
+  Contains the main logic for content generation.
+  Includes multiple specialized GPT Agents (e.g., URL analysis, marketing pitch generation, web content rewriting) following clean OOP principles.
+- **entity/**
+  Defines Data Transfer Objects (DTOs) such as `FieldTemplate`, and implements cache management and persistence mechanisms.
+- **utils/**
+  Provides wrapped utility methods for agent invocation, HTML parsing, structured data extraction, retry mechanisms, and more.
+
+### Major Design Improvements
+
+- **OOP Architecture**
+  The new version adopts a complete object-oriented design.
+  Each GPT-based operation (e.g., URL crawling, marketing pitch generation, customized web rewriting) is implemented as an independent `Agent` class, inheriting from a unified `BaseGPTAgent` interface to ensure extensibility and code reuse.
+- **Multi-Agent System**Three specialized GPT Agents are now implemented:
+
+  - `URLAnalysisAgent`
+  - `MarketingPitchGenerationAgent`
+  - `CustomizedWebContentAgent`
+    Each agent is responsible for a distinct stage in the content generation pipeline.
+- **Data Persistence and Caching**A structured caching mechanism is introduced using serialized JSON files.
+
+  - `FieldTemplate` objects store intermediate results, including crawled content, generated marketing pitches, and timestamps.
+  - When updating content:
+    - If a cache key exists and the corresponding URL and text have not changed, the cached result is reused directly to minimize API calls.
+    - If changes are detected, new content is generated and the cache is updated immediately.
+- **Error Handling and Retry Mechanisms**
+  For all GPT API interactions, robust retry strategies are incorporated to automatically handle transient connection or server errors.
+
+### Benefits of This Redesign
+
+- Faster repeated runs due to intelligent caching.
+- Cleaner code organization and easier future extensions.
+- Modular and flexible GPT agent usage patterns.
+- Resilient and production-grade error handling for real-world deployments.
+
+---
+
+## How to Run
+
+Make sure you have installed all dependencies (including `openai`, `langchain`, `httpx`, `beautifulsoup4`, etc.).
+
+To execute the full content generation pipeline, simply run:
+
+```bash
+python main.py
+```
+
+This will automatically:
+
+1. Load or initialize cache.
+2. Crawl webpage content if necessary.
+3. Generate a new marketing pitch based on updated information.
+4. Rewrite webpage sections according to the new marketing pitch.
+5. Update the cache with newly generated content.
+
+You can customize behavior by modifying the configurations inside `main.py` or the input files.
+
+---
+
+## New Content Generation Logic
+
+Under the new architecture, **content generation no longer attempts to establish relationships between different target audiences**. Instead, each target is processed independently to maximize personalization.
+
+The overall pipeline strategy is as follows:
+
+1. **URL Analysis**
+   Use `URLAnalysisAgent` to crawl and summarize the webpage content associated with each target.
+2. **Marketing Pitch Generation**
+   Combine the target's own `text` description and the crawled content, then use `MarketingPitchGenerationAgent` to produce a tailored marketing pitch highlighting how the company's services align with the target's needs.
+3. **Customized Web Content Rewriting**
+   Feed the generated marketing pitch along with the extracted HTML tag sections into `CustomizedWebContentAgent`.
+   Each section is rewritten based on its original role (e.g., headline, paragraph), while respecting the pitch messaging, maintaining logical flow, and keeping approximate length.
+4. **Structured Output**
+   The final result is a **JSON dictionary** where each key is a `tag_id` and each value is the rewritten, personalized HTML content.
+   This dictionary is saved under the `output/` directory for easy integration and downstream use.
+5. **Role of Caching**
+   Throughout the process, an intelligent caching system checks whether a target has already been processed with the same URL and text description.
+   If no changes are detected, the pipeline reuses previously generated results, dramatically reducing redundant GPT calls and improving efficiency.
+
+This design ensures:
+
+- Strong personalization for each audience.
+- Consistent professional tone.
+- Maximum utilization of available business information.
+- Flexible, modular, and extensible pipeline.
+- Highly efficient processing via cache reuse.
 
 ### New Structure Overview
 
@@ -110,6 +203,7 @@ All updated code is organized under the `src_` folder with a clear modular desig
 This project redesign sets a strong foundation for future scalability, including potential enhancements like fine-grained cache invalidation policies, parallelized content generation, or the integration of additional GPT-based agents.
 
 ---
+
 ## How to Run
 
 Make sure you have installed all dependencies (including `openai`, `langchain`, `httpx`, `beautifulsoup4`, etc.).
@@ -117,5 +211,27 @@ Make sure you have installed all dependencies (including `openai`, `langchain`, 
 To execute the full content generation pipeline, simply run:
 
 ```bash
+
 python main.py
 ---
+```
+
+## New Content Generation Logic
+
+Under the new architecture,** ****content generation no longer attempts to establish relationships between different target audiences**. Instead, each target is processed independently to maximize personalization.
+
+The overall pipeline strategy is as follows:
+
+1. **URL Analysis**
+   Use** **`<span>URLAnalysisAgent</span>` to crawl and summarize the webpage content associated with each target.
+2. **Marketing Pitch Generation**
+   Combine the target's own** **`<span>text</span>` description and the crawled content, then use** **`<span>MarketingPitchGenerationAgent</span>`to produce a tailored marketing pitch highlighting how the company's services align with the target's needs.
+3. **Customized Web Content Rewriting**
+   Feed the generated marketing pitch along with the extracted HTML tag sections into** **`<span>CustomizedWebContentAgent</span>`.
+   Each section is rewritten based on its original role (e.g., headline, paragraph), while respecting the pitch messaging, maintaining logical flow, and keeping approximate length.
+4. **Structured Output**
+   The final result is a** ****JSON dictionary** where each key is a** **`<span>tag_id</span>` and each value is the rewritten, personalized HTML content.
+   This dictionary is saved under the** **`<span>output/</span>` directory for easy integration and downstream use.
+5. **Role of Caching**
+   Throughout the process, an intelligent caching system checks whether a target has already been processed with the same URL and text description.
+   If no changes are detected, the pipeline reuses previously generated results, dramatically reducing redundant GPT calls and improving efficiency.
