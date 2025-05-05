@@ -5,7 +5,10 @@ from typing import List, Dict
 from typing import List, Dict
 from bs4 import BeautifulSoup
 
-def extract_tagged_content_from_html(positions: List[Dict[str, str]], html_file_path: str) -> List[Dict[str, str]]:
+
+def extract_tagged_content_from_html(
+    positions: List[Dict[str, str]], html_file_path: str
+) -> List[Dict[str, str]]:
     """
     Extract HTML content blocks based on placeholder IDs from a local HTML file.
 
@@ -30,7 +33,7 @@ def extract_tagged_content_from_html(positions: List[Dict[str, str]], html_file_
         element = soup.find(id=placeholder_id)
         if element:
             tag_id = placeholder_id
-            full_tag_html = str(element)  # 包括标签本身
+            full_tag_html = str(element)
             extracted_positions.append({tag_id: full_tag_html})
         else:
             print(f"[WARN] ID '{placeholder_id}' not found in HTML. Skipping.")
@@ -45,7 +48,7 @@ def generate_customized_web_content(
     model_name: str = "gpt-3.5-turbo",
     temperature: float = 0.3,
     max_retries: int = 3,
-    retry_delay: float = 10
+    retry_delay: float = 3,
 ) -> Dict[str, str]:
     """
     Use CustomizedWebContentAgent to generate rewritten webpage content for each tag + html snippet.
@@ -66,21 +69,25 @@ def generate_customized_web_content(
     input_data = {
         "target_audience": target_audience,
         "positions": positions,
-        "marketing_pitch": marketing_pitch
+        "marketing_pitch": marketing_pitch,
     }
 
     attempt = 0
     while attempt <= max_retries:
         try:
             result = agent.run(input_data)
-            if result.get('success'):
-                return result['rewritten_content']
+            if result.get("success"):
+                return result["rewritten_content"]
             else:
                 raise RuntimeError(f"Agent failed: {result.get('error')}")
 
         except Exception as e:
             attempt += 1
             if attempt > max_retries:
-                raise RuntimeError(f"Customized web content generation failed after {max_retries} retries: {str(e)}") from e
-            print(f"[RETRY] Error on attempt {attempt}/{max_retries}: {e}. Retrying after {retry_delay} seconds...")
+                raise RuntimeError(
+                    f"Customized web content generation failed after {max_retries} retries: {str(e)}"
+                ) from e
+            print(
+                f"[RETRY] Error on attempt {attempt}/{max_retries}: {e}. Retrying after {retry_delay} seconds..."
+            )
             time.sleep(retry_delay)

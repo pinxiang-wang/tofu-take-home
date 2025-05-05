@@ -31,6 +31,11 @@ class URLAnalysisAgent(BaseGPTAgent):
             - Any other relevant information or a summary of the website
 
             Respond ONLY with a JSON object.
+            ONLY output raw JSON.
+            Do NOT wrap the output in markdown code blocks like ```json.
+            Do NOT include explanations.
+            DO NOT prefix or suffix the JSON with any extra text.
+
             """
         return prompt
 

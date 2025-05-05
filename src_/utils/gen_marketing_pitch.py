@@ -8,6 +8,7 @@ import urllib3
 
 def generate_marketing_pitch(
     text: str, 
+    target_audience: str,
     crawled_content: dict, 
     company_info: str,    
     model_name: str = "gpt-3.5-turbo", 
@@ -34,6 +35,7 @@ def generate_marketing_pitch(
     print(f"[DEBUG] company_info: {company_info}")
     
     input_data = {
+        "target_audience": target_audience,
         "text": text,
         "crawled_content": crawled_content,
         "company_info": company_info  

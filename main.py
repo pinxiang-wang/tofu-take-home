@@ -1,4 +1,3 @@
-
 from datetime import datetime
 import json
 import os
@@ -18,6 +17,8 @@ html_path = 'data/landing_page.html'
 
 
 playbook = Playbook.load(company_info_path, target_info_path)
+if not os.path.exists('cache'):
+    os.makedirs("cache", exist_ok=True)
 # create cache if not exists, create the file first
 if not os.path.exists(cache_path):
     with open(cache_path, 'w') as f:
@@ -34,9 +35,9 @@ cache.update_company_info(playbook.company_info)
 cache.save_cache()
 
 positions = [
+    {"placeholder": "hs_cos_wrapper_banner"},   # Banner 
     {"placeholder": "hs_cos_wrapper_widget_1611686344563"},  # Main headline
-    {"placeholder": "hs_cos_wrapper_banner"},                 # Banner paragraph
-    {"placeholder": "hs_cos_wrapper_widget_1609866779313"}    # Subtitle
+    {"placeholder": "hs_cos_wrapper_widget_1609866779313"}    # Content paragraph
 ]
 
 
@@ -47,7 +48,7 @@ company_info_text = company_info_from_cache.to_string()
 
 # test with accounts only from the target.
 for section_name, section_data in grouped_info.items():
-    if section_name == 'accounts':
+    # if section_name == 'accounts':
         for key, value_dict in section_data.items():
             cache_key = f"{section_name}:{key}"
             text = value_dict.get("text")
@@ -55,31 +56,32 @@ for section_name, section_data in grouped_info.items():
             
             print(f"[DEBUG] text: {text}")
             print(f"[DEBUG] url: {url}")        
-            
+            target_audience = key
             # Prepare new entry basic info
             new_entry = FieldTemplate(
                 text=text,
                 url=url
             )
-
             cached_entry = cache_data.get(cache_key)
-
             if cached_entry:
                 # If cache exists, compare URL
                 if cached_entry.url == url and cached_entry.crawled_content and cached_entry.marketing_pitch:
                     print(f"[SKIP] {cache_key} - No changes detected, using cached data.")
                     continue
-                else:
-                    # --- Generate replacement content ---
-                    if marketing_pitch:
-                        replacement_content = generate_replacement_content(marketing_pitch, html_path, positions)
-                        print(f"[DEBUG] replacement_content: {replacement_content}")
-                        # --- Save replacements to output folder ---
-                        output_path = f"output/{cache_key}.json"
-                        with open(output_path, 'w') as f:
-                            json.dump(replacement_content, f)
-
-                    print(f"[UPDATE] {cache_key} - URL changed or missing crawled/marketing pitch, refreshing...")
+                elif cached_entry.url != url or cached_entry.text != text:
+                    crawled_content = url_content_crawler.crawl_content_from_url(url)
+                    marketing_pitch = generate_marketing_pitch(target_audience, text, crawled_content, company_info_text)
+                    cached_entry.crawled_content = crawled_content
+                    cached_entry.marketing_pitch = marketing_pitch
+                    cache_data[cache_key] = cached_entry
+                    print(f"[UPDATE] {cache_key} - URL changed or text updated, crawling and generating...")
+                elif marketing_pitch is None:
+                    print(f"[UPDATE] {cache_key} - No marketing pitch found, generating...")
+                    crawled_content = url_content_crawler.crawl_content_from_url(url)
+                    marketing_pitch = generate_marketing_pitch(target_audience, text, crawled_content, company_info_text)
+                    cached_entry.crawled_content = crawled_content
+                    cached_entry.marketing_pitch = marketing_pitch
+                    cache_data[cache_key] = cached_entry
             else:
                 print(f"[NEW] {cache_key} - Not in cache, crawling and generating...")
 
@@ -94,7 +96,7 @@ for section_name, section_data in grouped_info.items():
                     # print(f"[DEBUG] text: {text}")
                     # print(f"[DEBUG] crawled_content: {crawled_content}")
                     # print(f"[DEBUG] company_info_text: {company_info_text}")
-                    marketing_pitch = generate_marketing_pitch(text, crawled_content, company_info_text)
+                    marketing_pitch = generate_marketing_pitch(target_audience, text, crawled_content, company_info_text)
                 except Exception as e:
                     print(f"[ERROR] Failed to generate marketing pitch for {cache_key}: {str(e)}")
                     marketing_pitch = None
@@ -110,11 +112,11 @@ for section_name, section_data in grouped_info.items():
             cache_data[cache_key] = new_entry
             cache.save_cache()
 
-            # --- Generate replacement content ---
+            
 
 # --- Generate replacement content ---
 for section_name, section_data in grouped_info.items():
-    if section_name == 'accounts':
+    # if section_name == 'accounts':
         for key, value_dict in section_data.items():
             cache_key = f"{section_name}:{key}"
             text = value_dict.get("text")
@@ -129,7 +131,8 @@ for section_name, section_data in grouped_info.items():
                 print(f"[DEBUG] replacement_content: {replacement_content}")
                 # --- Save replacements to output folder ---
                 output_path = f"output/{cache_key}.json"
+                # check if the output directory exists, make directory if not    
+                if not os.path.exists(os.path.dirname("output")):
+                    os.makedirs(os.path.dirname("output"), exist_ok=True)
                 with open(output_path, 'w') as f:
                     json.dump(replacement_content, f)
-
-

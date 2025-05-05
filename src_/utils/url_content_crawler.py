@@ -5,7 +5,7 @@ import traceback
 
 def crawl_content_from_url(
     url: str, 
-    model_name: str = "gpt-4", 
+    model_name: str = "gpt-4o", 
     temperature: float = 0.3,
     max_retry: int = 3,
     retry_delay: float = 1.0  # seconds
