@@ -59,6 +59,7 @@ for section_name, section_data in grouped_info.items():
                 url=url,
                 crawled_content={},
                 marketing_pitch=None,
+                tofu_insight=None,
                 last_updated=None
             )
             target_audience = key
@@ -117,6 +118,8 @@ for section_name, section_data in grouped_info.items():
                 cached_entry.last_updated = datetime.now().isoformat()
                 cache_data[cache_key] = cached_entry
                 cache.save_cache()
+                
+                
             print(f"[DEBUG] need_crawled: {need_crawled}, need_generate_marketing_pitch: {need_generate_marketing_pitch}, is_modified_cache: {is_modified_cache}")
             
                 

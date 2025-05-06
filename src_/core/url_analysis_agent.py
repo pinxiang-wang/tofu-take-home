@@ -29,6 +29,7 @@ class URLAnalysisAgent(BaseGPTAgent):
             - Notable quotes or slogans
             - Competitive differentiators
             - Any other relevant information or a summary of the website
+            - Gave me an answer more than 1000 words with well structured topic and organized.
 
             Respond ONLY with a JSON object.
             ONLY output raw JSON.

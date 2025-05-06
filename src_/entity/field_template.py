@@ -11,6 +11,7 @@ class FieldTemplate:
     crawled_content: Optional[str] = None  
     content: Optional[Any] = None   # New: store full structured content (e.g. dict)
     last_updated: Optional[str] = None  
+    tofu_insight: Optional[str] = None
 
     def has_changed(self, other: "FieldTemplate", compare_content: bool = False) -> bool:
         """
